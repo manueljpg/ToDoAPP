@@ -15,82 +15,52 @@ function register() {
   let password = document.getElementById("password").value;
   let repeatPassword = document.getElementById("repeatPassword").value;
 
+  
+
 
   // Validação dos dados inseridos pelo usuario
-  if (
-    password != "" &&
-    repeatPassword != "" &&
-    password === repeatPassword &&
-    password.length >= 8 &&
-    password.length < 12 &&
-    /.com$/.test(email)
-  ) {
+  if (password != "" && repeatPassword != "" && password === repeatPassword && password.length >= 8 && password.length < 12 && /.com$/.test(email)) {
+   
     if (firstName == "" && lastName == "") {
-      document.getElementsByClassName(
-        "message"
-      )[0].innerHTML = `O nome e o sobrenome não podem ser vazios!`;
+      document.getElementsByClassName("message")[0].innerHTML = `O nome e o sobrenome não podem ser vazios!`;
     } else {
-      let clock = 5000; // representa 5 segundos
-      let count = 5;
-      localStorage.setItem("user", [
-        {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-        },
-      ]);
-
-      setTimeout((_) => {
-        clearInterval(interval); // limpa o clock a cada 1 segundo
-        window.location.href = "index.html";
-      }, clock);
 
       //Preparação do objeto normalizado para o registro na API
       let registerData = {
         method: "POST",
-
         headers: {
-          "Content-type": "application.json",
+          'content-type' : 'application/json'
         },
 
         body: JSON.stringify({
-          firstName: firstName.value,
-          lastName: lastName.value,
-          email: email.value,
-          pasword: password.value,
-        }),
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          pasword: password,
+        }),       
       };
 
-      fetch("https://ctd-todo-api.herokuapp.com/v1/users", registerData)
 
-        .then((response)=>{
+      let newRequest = new Request("https://ctd-todo-api.herokuapp.com/v1/users", registerData)
 
+      fetch(newRequest)
+        .then( response => {
             if (response.status == 201) {
                 return response.json()}
                 throw response;
             })
             
-        .then(function(answer) {
-                successSignIn(firstName.value, lastName.value, email.value, answer.jwt)
+        .then(answer => {
+                successSignIn(firstName, lastName, email, answer.jwt)
             })
 
         .catch(error=>{
             SignInError(error)
         });
 
-        
-
-      let interval = setInterval(() => {
-        document.getElementsByClassName(
-          "message"
-        )[0].innerHTML = `Cadastro realizado com sucesso! Direcionando para Login em ${count--}s ...`;
-      }, 1000);
     }
   } else {
-    document.getElementsByClassName(
-      "message"
-    )[0].innerHTML = `Todos os dados precisam ser preenchidos corretamente!`;
+    document.getElementsByClassName("message")[0].innerHTML = `Todos os dados precisam ser preenchidos corretamente!`;
   }
 
   //Criando a funcao successSignIn que será executada uma vez recebido token do usuario
