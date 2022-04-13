@@ -1,80 +1,55 @@
-function register() {
-    //Capturando o evento e colocando um PreventDefault para evitar carregar pagina
+let firstName = document.getElementById("firstName");
+let lastName = document.getElementById("lastName");
+let email = document.getElementById("email");
+let password = document.getElementById("password");
+let repeatPassword = document.getElementById("repeatPassword");
 
-    let form = document.querySelector("form");
+let form = document.querySelector("form");
 
-  form.addEventListener("submit", (e) => {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
-  });
+    newUser()
+})
 
+const newUser = () => {
 
-  //Normalização dos dados que usuario insere para realizar o cadastro
-  let firstName = document.getElementById("firstName").value.trim();
-  let lastName = document.getElementById("lastName").value.trim();
-  let email = document.getElementById("email").value.toLowerCase();
-  let password = document.getElementById("password").value;
-  let repeatPassword = document.getElementById("repeatPassword").value;
+  if (password.value != "" && repeatPassword.value != "" && password.value === repeatPassword.value && password.value.length >= 8 && password.value.length < 12 && /.com$/.test(email.value) && firstName.value != "" && lastName.value != "") {
+    
+    let settings = {
+      method: "POST",
+      headers: {
+       'content-type': 'application/json'
+     },
+       body: JSON.stringify({     
+         firstName: firstName.value.toString(),
+         lastName: lastName.value.toString(),
+         email: email.value.toString(),
+         password: password.value.toString(),
+       }),
+     };
 
-  
-
-
-  // Validação dos dados inseridos pelo usuario
-  if (password != "" && repeatPassword != "" && password === repeatPassword && password.length >= 8 && password.length < 12 && /.com$/.test(email)) {
-   
-    if (firstName == "" && lastName == "") {
-      document.getElementsByClassName("message")[0].innerHTML = `O nome e o sobrenome não podem ser vazios!`;
-    } else {
-
-      //Preparação do objeto normalizado para o registro na API
-      let registerData = {
-        method: "POST",
-        headers: {
-          'content-type' : 'application/json'
-        },
-
-        body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          pasword: password,
-        }),       
-      };
-
-
-      let newRequest = new Request("https://ctd-todo-api.herokuapp.com/v1/users", registerData)
-
-      fetch(newRequest)
-        .then( response => {
-            if (response.status == 201) {
-                return response.json()}
-                throw response;
-            })
-            
-        .then(answer => {
-                successSignIn(firstName, lastName, email, answer.jwt)
-            })
-
-        .catch(error=>{
-            SignInError(error)
-        });
-
-    }
-  } else {
-    document.getElementsByClassName("message")[0].innerHTML = `Todos os dados precisam ser preenchidos corretamente!`;
+    const url = 'https://ctd-todo-api.herokuapp.com/v1/users';
+    
+    fetch(url, settings)
+      .then(response => {
+        console.log(response)
+        return response.json()
+      })
+      .then((answer) => {
+        console.log(answer.jwt)
+      })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
-  //Criando a funcao successSignIn que será executada uma vez recebido token do usuario
+  else {
+    alert("Certifique-se que os campos estão preenchidos corretamente")
+  }
+}    
 
-  function successSignIn(firstName, lastName, email, answer) {
-      localStorage.setItem("user", JSON.stringify({firstName:firstName, lastName:lastName, email:email, token:answer}));
-      alert("Usuario cadastrado com sucesso")
-
-      //Redirecionando o usuario para página onde serão criadas as cards de tarefas
-      window.location.href = "tarefas.html"
+  function irParaLogin(jwtrecebido) {
+    localStorage.setItem("token", jwtrecebido);
+    window.location.href = "index.html"
   }
 
-  // Em caso do usuario não poder realizar o cadastro, mostrar uma mensagem com código de erro. Como fazer um card??
-  function SignInError(error) {
-      return ` Erro ao realizar o cadastro ${error}`
-  }
-}

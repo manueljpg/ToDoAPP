@@ -12,7 +12,7 @@
 
   <!-- ---------------------- lógica aplicada no registro -------------------- -->
   <script src="/scripts/utils.js"></script>
-  <script src="/scripts/signup.js"></script>
+  <script src="/scripts/signup.js" defer></script>
 
 </head>
 
@@ -26,8 +26,6 @@
       <div class="form-header">
         <p>To-Do App</p>
       </div>
-
-      <p class="message"></p>
       <label>
         Nome:
         <input id="firstName" type="text">
@@ -49,14 +47,14 @@
         <input id="repeatPassword" type="password">
       </label>
 
-      <button onclick="register()">Criar conta</button>
+      <button id="btn-acessar">Criar conta</button>
 
     </form>
     <div class="ingressar">
       <a href="index.html">Já possui conta? Acesse aqui</a>
     </div>
   </div>
-
+  
 </body>
 
 </html>
