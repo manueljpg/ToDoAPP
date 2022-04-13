@@ -16,7 +16,7 @@ function register() {
   let repeatPassword = document.getElementById("repeatPassword").value;
 
   
-
+  console.log(firstName, lastName, email, password, repeatPassword)
 
   // Validação dos dados inseridos pelo usuario
   if (password != "" && repeatPassword != "" && password === repeatPassword && password.length >= 8 && password.length < 12 && /.com$/.test(email)) {
@@ -29,34 +29,28 @@ function register() {
       let registerData = {
         method: "POST",
         headers: {
-          'content-type' : 'application/json'
+          'Content-Type': 'application/json',
         },
 
         body: JSON.stringify({
           firstName: firstName,
           lastName: lastName,
           email: email,
-          pasword: password,
+          password: password,
         }),       
       };
 
 
-      let newRequest = new Request("https://ctd-todo-api.herokuapp.com/v1/users", registerData)
 
-      fetch(newRequest)
-        .then( response => {
-            if (response.status == 201) {
-                return response.json()}
-                throw response;
-            })
-            
-        .then(answer => {
-                successSignIn(firstName, lastName, email, answer.jwt)
-            })
-
-        .catch(error=>{
-            SignInError(error)
-        });
+      fetch("https://ctd-todo-api.herokuapp.com/v1/users", registerData)
+      .then((resp) => {
+        console.log(resp)
+        resp.json()
+      })
+      .then(data => {
+        JSON.stringify(data)
+        console.log(data)
+      })
 
     }
   } else {
