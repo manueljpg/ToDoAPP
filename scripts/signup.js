@@ -35,8 +35,8 @@ const newUser = () => {
         console.log(response)
         return response.json()
       })
-      .then((answer) => {
-        console.log(answer.jwt)
+      .then(_ => {
+        window.location.href = "index.html"
       })
       .catch(error => {
         console.log(error)
@@ -48,9 +48,4 @@ const newUser = () => {
     alert("Certifique-se que os campos estão preenchidos corretamente")
   }
 }    
-
-function irParaLogin(jwtrecebido) {
-  localStorage.setItem("token", jwtrecebido);
-  window.location.href = "index.html"
-}
 

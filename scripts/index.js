@@ -31,7 +31,7 @@ function login(){
                 return response.json() 
             }) 
             .then((answer) => { 
-                localStorage.setItem("users", answer.jwt)
+                localStorage.setItem("token", answer.jwt)
             }) 
             .catch(error => { 
                 console.log(error);

@@ -1,25 +1,29 @@
-window.addEventListener("load", e => {
-    let url = 'https://ctd-todo-api.herokuapp.com/v1/users/getMe'
+let token = localStorage.getItem('token');
+let url = `https://ctd-todo-api.herokuapp.com/v1/users/getMe`;
 
-    let settings = { 
-        method: "GET", 
-        headers:{ 
-            'content-type': 'application/json',
-            'authorization': localStorage.getItem('token')
-        },
-    } 
 
-    fetch(url, settings)
-    .then(response => {
-        response.json()
-    })
-    .then(data => {
-        console.log(data)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+let settings = {
+    method: 'GET',
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": token,
+    },
+}
 
-    e.preventDefault();
+
+fetch(url, settings)
+    .then(response => response.json())
+    .then(json => {
+        console.log(json)
+        document.getElementsByClassName("user-name")[0].innerHTML = `${json.firstName} ${json.lastName}`
+    })
+    .catch(err => console.error(err));
+
     
+
+
+
+
+window.addEventListener("load", e => {
+    e.preventDefault();
 })
