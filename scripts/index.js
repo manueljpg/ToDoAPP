@@ -7,11 +7,36 @@ function login(){
 
     // verifica se e-mail é vazio ou atendente os requisitos
     if(email != "" && /.com$/.test(email)){
-        console.log("teste")
+        
         if(password.length >= 8 && password.length <= 12){
+            console.log(email, password)
             let clock = 5000; // representa 5 segundos 
             let count = 5
             localStorage.setItem("user", email)
+
+            let settings = { 
+                method: "POST", 
+                headers:{ 'content-type': 'application/json' }, 
+                body:JSON.stringify(
+                    { 
+                        "email": email, 
+                        "password": password 
+                    }
+                )
+            } 
+
+            const url ='https://ctd-todo-api.herokuapp.com/v1/users/login' 
+            fetch(url, settings) 
+            .then(response => { 
+                return response.json() 
+            }) 
+            .then((answer) => { 
+                localStorage.setItem("users", answer.jwt)
+            }) 
+            .catch(error => { 
+                console.log(error);
+        
+            }); 
 
             setTimeout(_ => {
                 clearInterval(interval) // limpa o clock a cada 1 segundo
