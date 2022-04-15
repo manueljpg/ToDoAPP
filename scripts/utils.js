@@ -19,9 +19,6 @@ fetch(url, settings)
     })
     .catch(err => console.error(err));
 
-    
-
-
 
 
 window.addEventListener("load", e => {
