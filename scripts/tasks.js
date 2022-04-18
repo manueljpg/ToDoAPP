@@ -1,5 +1,6 @@
 window.onload = function () {
   listtask();
+
 };
 
 function timeMensagem(){
@@ -22,49 +23,67 @@ function listtask() {
 
   fetch(url, settings)
     .then((response) => response.json())
-    .then((json) => {
+    .then((tasks) => {
       let schemaA = document.getElementById("skeleton");
       let schemaB = document.getElementById("closed");
       schemaA.innerHTML = "";
       schemaB.innerHTML = "";
-      json.forEach((e) => {
-        if (e.completed == false) {
-          schemaA.innerHTML += `
-                    <li class="tarefa">
-                        <div class="not-done">
-                          <button type="button" onclick="editTaskStatus(${e.id}, true)">
-                          <span class="material-icons">schedule</span>
-                          </button>
-                        </div>
 
-                        <div class="descricao">
-                            <p class="nome" id="desc_${e.id}">${e.description}</p>
-                            <p class="timestamp">Criada em: ${e.createdAt}</p>
-                        </div>
-                    </li>
-            `;
+      tasks.forEach((task) => {
+        let datingCreation = new Date(task.createdAt);
+        datingCreation.toLocaleDateString('pt-BR');
+        datingCreation = datingCreation.getDate() + 
+        "/" + (datingCreation.getMonth() + 1) + "/" + datingCreation.getFullYear() 
+        +""+ datingCreation.getHours() + ':' + datingCreation.getMinutes();
+
+        if (task.completed == false) {
+          schemaA.innerHTML += templateTask(task, datingCreation)
         } else {
-          schemaB.innerHTML += `
+          schemaB.innerHTML += templateTask(task, datingCreation)
+        }
+      });
+    })
+    .catch((err) => console.error(err));
+};
+
+
+let templateTask = (task, date) => {
+    let template = '';
+
+    if (task.completed == false) {
+      template = `
+      <li class="tarefa">
+          <div class="not-done">
+            <button type="button" onclick="editTaskStatus(${task.id}, true)">
+            <span class="material-icons">schedule</span>
+            </button>
+          </div>
+
+          <div class="descricao">
+              <p class="nome" id="desc_${task.id}">${task.description}</p>
+              <p class="timestamp">Criada em: ${date}</p>
+          </div>
+      </li>`
+    } else {
+        template =  `
           <li class="tarefa">
             <div class="done">
               <span class="material-icons">check</span>
             </div>
 
             <div class="descricao">
-              <p class="nome" id="desc_${e.id}">${e.description}</p>
+              <p class="nome" id="desc_${task.id}">${task.description}</p>
               <div>
-                <button onclick="editTaskStatus(${e.id},false)"><i id="${e.id}" class="fas
+                <button onclick="editTaskStatus(${task.id},false)"><i id="${task.id}" class="fas
                 fa-undo-alt change"></i></button>
-                <button onclick="deleteTask(${e.id})"><i id="" class="far
-                fa-trash-alt"></i></button>
+                <button onclick="deleteTask(${task.id})"><i class='fas fa-trash-alt'>
+                </i></button>
               </div>
             </div>
           </li>
                 `;
         }
-      });
-    })
-    .catch((err) => console.error(err));
+    return template;
 }
 
 
@@ -93,11 +112,11 @@ function createTask() {
   fetch(url, settings)
     .then((response) => response.json())
     .then((json) => {
-      console.log(json);
       listtask();
       document.getElementById("novaTarea").value='';
     })
     .catch((err) => console.error(err));
+    
 }
 
 function editTaskStatus(id, status) {
@@ -150,7 +169,7 @@ function deleteTask(id) {
       fetch(url, settings)
     .then((response) => response.json())
     .then((json) => {
-      document.getElementsByClassName("mensagem")[0].innerHTML = `A tarefa ${json.description} foi excluída!`
+      document.getElementsByClassName("mensagem")[0].innerHTML = `A tarefa foi excluída com sucesso!`
       listtask();
       timeMensagem();
     })
