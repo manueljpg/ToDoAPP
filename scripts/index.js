@@ -1,3 +1,8 @@
+session = localStorage.getItem("token")
+
+  if(session) {
+    window.location.href = "tarefas.html"
+  }
 
 function login(){
     let email = document.getElementById("inputEmail").value.toLowerCase();
@@ -10,7 +15,7 @@ function login(){
         
         if(password.length >= 8 && password.length <= 12){
             console.log(email, password)
-            let clock = 5000; // representa 5 segundos 
+            let clock = 500; // representa 5 segundos 
             localStorage.setItem("user", email)
 
             let settings = { 
