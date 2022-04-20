@@ -1,6 +1,11 @@
+session = localStorage.getItem("token")
+
+if(!session) {
+    window.location.href = "/"
+}
+
 window.onload = function () {
   listtask();
-
 };
 
 function timeMensagem(){
@@ -180,6 +185,13 @@ function deleteTask(id) {
     timeMensagem();
   }
 }
+
+
+function removeSession(){
+  localStorage.removeItem("token");
+  window.location.href = "/"
+}
+
 
 addEventListener("submit", (e) => {
   e.preventDefault();
