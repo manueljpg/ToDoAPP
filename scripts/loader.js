@@ -5,6 +5,8 @@ function mostrarSpinner() {
  
     // Selecionamos o formulário de registro para poder ocultá-lo durante o carregamento
     const form = document.querySelector("form");
+    const link = document.getElementById("link");
+    const imagem = document.getElementById("img");
  
     // Criamos nosso spinner
     const spinnerContainer = document.createElement("div");
@@ -17,6 +19,8 @@ function mostrarSpinner() {
  
     // Ocultamos o formulário de registro
     form.classList.add("hidden");
+    link.classList.add("hidden");
+    imagem.classList.add("hidden");
  
     // Adicionamos o Spinner ao nosso HTML.
     spinnerContainer.appendChild(spinner);
