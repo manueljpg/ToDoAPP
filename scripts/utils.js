@@ -14,7 +14,7 @@ let settings = {
 fetch(url, settings)
     .then(response => response.json())
     .then(json => {
-        console.log(json)
+        sessionStorage.setItem('user', `${json.firstName}`)
         document.getElementsByClassName("user-name")[0].innerHTML = `${json.firstName} ${json.lastName}`
     })
     .catch(err => console.error(err));
