@@ -14,7 +14,7 @@ form.addEventListener("submit", (e) => {
 const newUser = () => {
   
   mostrarSpinner(); 
-
+//Validação dos dados do usuario antes do cadastro
   if (password.value != "" && repeatPassword.value != "" && password.value === repeatPassword.value && password.value.length >= 8 && password.value.length < 12 && /.com$/.test(email.value) && firstName.value != "" && lastName.value != "") {
     
     let settings = {
