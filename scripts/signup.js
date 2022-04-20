@@ -34,7 +34,6 @@ const newUser = () => {
     
     fetch(url, settings)
       .then(response => {
-        console.log(response)
         return response.json()
       })
       .then(_ => {
