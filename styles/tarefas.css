@@ -246,7 +246,7 @@ a {
 
 .material-icons{
   color: white;
-  background-color: white;
+  background-color: var(--secondary);
  
 }
 /* Tarefas terminadas ----------------------------------------------------------- */
@@ -255,7 +255,7 @@ a {
   position: relative;
   height: 2em;
   width: 2em;
-  background-color: white;
+  background-color: var(--secondary);
   box-shadow: 2px 2px 5px lightgrey;
   z-index: 2;
   color: white;
@@ -290,7 +290,7 @@ a {
   display: block;
   height: 4.5em;
   width: 2px;
-  background-color: var(--secondary);
+  background-color: #12b4ad;
 }
 
 .tarefas-terminadas {

@@ -4,14 +4,13 @@ function login(){
     let password = document.getElementById("inputPassword").value;
 
     
-
+    mostrarSpinner()
     // verifica se e-mail é vazio ou atendente os requisitos
     if(email != "" && /.com$/.test(email)){
         
         if(password.length >= 8 && password.length <= 12){
             console.log(email, password)
             let clock = 5000; // representa 5 segundos 
-            let count = 5
             localStorage.setItem("user", email)
 
             let settings = { 
@@ -32,28 +31,22 @@ function login(){
             }) 
             .then((answer) => { 
                 localStorage.setItem("token", answer.jwt)
+                setTimeout(_ => {
+                    window.location.href="tarefas.html"    
+                }, clock);
+                ocultarSpinner();
             }) 
             .catch(error => { 
                 console.log(error);
-        
+                ocultarSpinner()
             }); 
 
-            setTimeout(_ => {
-                clearInterval(interval) // limpa o clock a cada 1 segundo
-                window.location.href="tarefas.html"
-            
-            }, clock)
-
-            let interval = setInterval(() => {
-                document.getElementsByClassName("message")[0].innerHTML = `Sessão iniciada com sucesso. Aguarde você está sendo redirecionado em ${count--}s ...`
-            }, 1000);
-        }else{
+        } else{
             document.getElementById("inputPassword").style.borderColor = "red";
             document.getElementsByClassName("message")[0].innerHTML = `A senha deve ter pelo menos 8 caracteres e no máximo 12`;
         }
 
-    }else{
-        console.log("aqui")
+    } else{
         document.getElementById("inputEmail").style.borderColor = "red";
         document.getElementsByClassName("message")[0].innerHTML = `E-mail não atende aos requisitos.`;
     }

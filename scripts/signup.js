@@ -12,6 +12,8 @@ form.addEventListener("submit", (e) => {
 })
 
 const newUser = () => {
+  
+  mostrarSpinner(); 
 
   if (password.value != "" && repeatPassword.value != "" && password.value === repeatPassword.value && password.value.length >= 8 && password.value.length < 12 && /.com$/.test(email.value) && firstName.value != "" && lastName.value != "") {
     
@@ -36,10 +38,14 @@ const newUser = () => {
         return response.json()
       })
       .then(_ => {
-        window.location.href = "index.html"
+        setTimeout(() => {
+          window.location.href = 'index.html'
+       }, 3000);
+       ocultarSpinner();
       })
       .catch(error => {
         console.log(error)
+        ocultarSpinner();
       });
 
   }

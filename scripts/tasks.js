@@ -34,7 +34,7 @@ function listtask() {
         datingCreation.toLocaleDateString('pt-BR');
         datingCreation = datingCreation.getDate() + 
         "/" + (datingCreation.getMonth() + 1) + "/" + datingCreation.getFullYear() 
-        +""+ datingCreation.getHours() + ':' + datingCreation.getMinutes();
+        + " | " + datingCreation.getHours() + ':' + datingCreation.getMinutes();
 
         if (task.completed == false) {
           schemaA.innerHTML += templateTask(task, datingCreation)
@@ -154,6 +154,7 @@ function editTaskStatus(id, status) {
     }
 }
 
+
 function deleteTask(id) {
 
   if(confirm(`Tem certeza que deseja remover esta tarefa?`)){
@@ -183,3 +184,4 @@ function deleteTask(id) {
 addEventListener("submit", (e) => {
   e.preventDefault();
 });
+
